@@ -1,0 +1,48 @@
+version: "3"
+services:
+  storage-backend:
+    image: expediadotcom/haystack-trace-backend-memory
+#    ports:
+#      - "8090:8090"
+    environment:
+      HAYSTACK_GRAPHITE_ENABLED: "false"
+
+  elasticsearch:
+    image: elastic/elasticsearch:6.0.1
+    environment:
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+#    ports:
+#      - "9200:9200"
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+#    ports:
+#      - "2181:2181"
+      
+  kafkasvc:
+    image: wurstmeister/kafka:2.11-1.1.1
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: "kafkasvc"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9092:9092"
+
+  trace-reader:
+    image: expediadotcom/haystack-trace-reader
+    ports:
+      - "8088:8088"
+    environment:
+      HAYSTACK_GRAPHITE_ENABLED: "false"
+      HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
+
+  trace-indexer:
+    image: haystack-trace-indexer
+    environment:
+      HAYSTACK_GRAPHITE_ENABLED: "false"
+      HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
+    depends_on:
+      - "elasticsearch"
