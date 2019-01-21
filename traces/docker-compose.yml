@@ -2,8 +2,6 @@ version: "3"
 services:
   storage-backend:
     image: expediadotcom/haystack-trace-backend-memory
-#    ports:
-#      - "8090:8090"
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
 
@@ -11,14 +9,10 @@ services:
     image: elastic/elasticsearch:6.0.1
     environment:
       ES_JAVA_OPTS: "-Xms256m -Xmx256m"
-#    ports:
-#      - "9200:9200"
 
   zookeeper:
     image: wurstmeister/zookeeper
-#    ports:
-#      - "2181:2181"
-      
+
   kafkasvc:
     image: wurstmeister/kafka:2.11-1.1.1
     depends_on:

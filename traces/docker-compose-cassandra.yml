@@ -10,8 +10,6 @@ services:
 
   storage:
     image: haystack-trace-backend-cassandra
-#    ports:
-#      - "8090:8090"
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
     depends_on:
