@@ -1,0 +1,12 @@
+{
+  "connectors": {
+    "traces": {
+      "connectorName": "haystack",
+      "haystackHost": "localhost",
+      "haystackPort": "8088"
+    },
+    "trends": {
+      "connectorName": "haystack"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+version: "3"
+services:
+  elasticsearch:
+    image: elastic/elasticsearch:6.0.1
+    environment:
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+
+  cassandra:
+    image: cassandra:3.11.0
+    environment:
+      MAX_HEAP_SIZE: 256m
+      HEAP_NEWSIZE: 256m
+    ports:
+      - "9042:9042"
+      
+  zookeeper:
+    image: wurstmeister/zookeeper
+
+  kafkasvc:
+    image: wurstmeister/kafka:2.11-1.1.1
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: "kafkasvc"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9092:9092"
+
+  ui:
+    image: haystack-ui
+    volumes:
+      - ./:/data
+    ports:
+      - "8080:8080"
