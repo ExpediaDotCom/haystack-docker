@@ -10,8 +10,6 @@ services:
     environment:
       MAX_HEAP_SIZE: 256m
       HEAP_NEWSIZE: 256m
-    ports:
-      - "9042:9042"
       
   zookeeper:
     image: wurstmeister/zookeeper

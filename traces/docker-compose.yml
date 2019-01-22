@@ -9,8 +9,6 @@ services:
       
   trace-reader:
     image: expediadotcom/haystack-trace-reader
-    ports:
-      - "8088:8088"
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"

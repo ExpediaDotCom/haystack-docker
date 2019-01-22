@@ -2,7 +2,7 @@
   "connectors": {
     "traces": {
       "connectorName": "haystack",
-      "haystackHost": "localhost",
+      "haystackHost": "trace-reader",
       "haystackPort": "8088"
     },
     "trends": {
