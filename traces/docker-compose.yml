@@ -25,4 +25,4 @@ services:
 
   ui:
     environment:
-      HAYSTACK_OVERRIDES_CONFIG_PATH: /data/traces.json
+      HAYSTACK_OVERRIDES_CONFIG_PATH: /data/traces/traces.json
