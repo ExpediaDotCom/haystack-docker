@@ -1,0 +1,39 @@
+version: "3"
+services:
+  metrictank:
+    image: grafana/metrictank:0.10.1
+    environment:
+      MT_HTTP_MULTI_TENANT: "false"
+      MT_CARBON_IN_ENABLED: "false"
+      MT_KAFKA_MDM_IN_ENABLED: "true"
+      MT_CASSANDRA_ADDRS: "cassandra:9042"
+      MT_KAFKA_MDM_IN_BROKERS: "kafkasvc:9092"
+      MT_CASSANDRA_IDX_HOSTS: "cassandra:9042"
+      MT_STATS_ENABLED: "false"
+    depends_on:
+      - "kafkasvc"
+    restart: on-failure
+
+  trends-transformer:
+    image: expediadotcom/haystack-span-timeseries-transformer
+    environment:
+      HAYSTACK_GRAPHITE_ENABLED: "false"
+      HAYSTACK_PROP_HEALTH_STATUS_PATH: "/app/isHealthy"
+    depends_on:
+      - "kafkasvc"
+    restart: on-failure
+
+  trends-aggregator:
+    image: expediadotcom/haystack-timeseries-aggregator
+    environment:
+      HAYSTACK_GRAPHITE_ENABLED: "false"
+    depends_on:
+      - "kafkasvc"
+    restart: on-failure
+
+  ui:
+    environment:
+      HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
+      HAYSTACK_CONNECTORS_TRACES_CONNECTOR__NAME: "stub"
+      HAYSTACK_CONNECTORS_TRENDS_CONNECTOR__NAME: "haystack"
+      HAYSTACK_CONNECTORS_TRENDS_METRIC__TANK__URL: "http://metrictank:6060"

@@ -21,13 +21,14 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: "kafkasvc"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "proto-spans"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "9092:9092"
 
   ui:
-    image: haystack-ui
+    image: expediadotcom/haystack-ui
     volumes:
       - ./:/data
     ports:

@@ -1,7 +1,7 @@
 version: "3"
 services:
   storage-backend:
-    image: haystack-trace-backend-cassandra
+    image: expediadotcom/haystack-trace-backend-cassandra
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
     depends_on:
@@ -14,7 +14,7 @@ services:
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
 
   trace-indexer:
-    image: haystack-trace-indexer
+    image: expediadotcom/haystack-trace-indexer
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
@@ -23,4 +23,6 @@ services:
 
   ui:
     environment:
-      HAYSTACK_OVERRIDES_CONFIG_PATH: /data/traces/traces.json
+      HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
+      HAYSTACK_CONNECTORS_TRACES_CONNECTOR__NAME: "haystack"
+      HAYSTACK_CONNECTORS_TRENDS_CONNECTOR__NAME: "stub"
