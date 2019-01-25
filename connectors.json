@@ -1,4 +1,10 @@
 {
   "connectors": {
+    "traces": {
+      "connectorName": "stub"
+    }
+    "trends": {
+      "connectorName": "stub"
+    }
   }
 }

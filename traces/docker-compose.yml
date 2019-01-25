@@ -25,4 +25,3 @@ services:
     environment:
       HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
       HAYSTACK_CONNECTORS_TRACES_CONNECTOR__NAME: "haystack"
-      HAYSTACK_CONNECTORS_TRENDS_CONNECTOR__NAME: "stub"

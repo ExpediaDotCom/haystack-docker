@@ -19,21 +19,23 @@ services:
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_HEALTH_STATUS_PATH: "/app/isHealthy"
+      HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
     depends_on:
       - "kafkasvc"
-    restart: on-failure
+    restart: always
 
   trends-aggregator:
     image: expediadotcom/haystack-timeseries-aggregator
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
+      HAYSTACK_PROP_HEALTH_STATUS_PATH: "/app/isHealthy"
+      HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
     depends_on:
       - "kafkasvc"
-    restart: on-failure
+    restart: always
 
   ui:
     environment:
       HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
-      HAYSTACK_CONNECTORS_TRACES_CONNECTOR__NAME: "stub"
       HAYSTACK_CONNECTORS_TRENDS_CONNECTOR__NAME: "haystack"
       HAYSTACK_CONNECTORS_TRENDS_METRIC__TANK__URL: "http://metrictank:6060"
