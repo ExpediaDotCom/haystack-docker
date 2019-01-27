@@ -43,4 +43,5 @@ to send sample data, one can start haystack-agent as well
 $docker-compose -f docker-compose.yml -f traces/docker-compose.yml -f trends/docker-compose.yml -f agent/docker-compose.yml up
 ```
 
+one can find a sample spring boot application with configuration to send data to haystack agent @  https://github.com/mchandramouli/haystack-springbootsample
 
