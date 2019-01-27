@@ -10,9 +10,12 @@ services:
       MT_KAFKA_MDM_IN_BROKERS: "kafkasvc:9092"
       MT_CASSANDRA_IDX_HOSTS: "cassandra:9042"
       MT_STATS_ENABLED: "false"
+      MT_MEMORY_IDX_TAG_SUPPORT: "true"
     depends_on:
       - "kafkasvc"
     restart: on-failure
+#    ports:
+#      - "6060:6060"
 
   trends-transformer:
     image: expediadotcom/haystack-span-timeseries-transformer
@@ -20,6 +23,7 @@ services:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_HEALTH_STATUS_PATH: "/app/isHealthy"
       HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
+      JAVA_XMS: 128m
     depends_on:
       - "kafkasvc"
     restart: always
@@ -30,6 +34,7 @@ services:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_HEALTH_STATUS_PATH: "/app/isHealthy"
       HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
+      JAVA_XMS: 128m
     depends_on:
       - "kafkasvc"
     restart: always

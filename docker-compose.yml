@@ -3,16 +3,23 @@ services:
   elasticsearch:
     image: elastic/elasticsearch:6.0.1
     environment:
-      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+#    ports:
+#      - "9200:9200"
+    restart: always
 
   cassandra:
     image: cassandra:3.11.0
     environment:
       MAX_HEAP_SIZE: 256m
       HEAP_NEWSIZE: 256m
+#    ports:
+#      - "9042:9042"
       
   zookeeper:
     image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
 
   kafkasvc:
     image: wurstmeister/kafka:2.11-1.1.1

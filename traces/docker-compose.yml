@@ -4,20 +4,27 @@ services:
     image: expediadotcom/haystack-trace-backend-cassandra
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
+      HAYSTACK_LOG_LEVEL: "DEBUG"
+      JAVA_XMS: 128m
     depends_on:
       - "cassandra"
+#    ports:
+#      - "8090:8090"
       
   trace-reader:
     image: expediadotcom/haystack-trace-reader
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
+      JAVA_XMS: 128m
 
   trace-indexer:
     image: expediadotcom/haystack-trace-indexer
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
+      HAYSTACK_LOG_LEVEL: "INFO"
+      JAVA_XMS: 128m
     depends_on:
       - "elasticsearch"
 
@@ -25,3 +32,5 @@ services:
     environment:
       HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
       HAYSTACK_CONNECTORS_TRACES_CONNECTOR__NAME: "haystack"
+      HAYSTACK_CONNECTORS_TRACES_HAYSTACK__HOST: "trace-reader"
+      HAYSTACK_CONNECTORS_TRACES_HAYSTACK__PORT: "8088"
