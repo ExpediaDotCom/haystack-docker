@@ -34,16 +34,10 @@ NoteL This will start configure `trends` to work with mock data
 ### To start traces and trends
 
 ```
-$docker-compose -f docker-compose.yml -f traces/docker-compose.yml -f trends/docker-compose.yml up
-```
-
-to send sample data, one can start haystack-agent as well
-
-```
 $docker-compose -f docker-compose.yml -f traces/docker-compose.yml -f trends/docker-compose.yml -f agent/docker-compose.yml up
 ```
 
-Give a minute or two for the containers to come up and connect with each other. 
+Give a minute or two for the containers to come up and connect with each other. The command above starts haystack-agent as well. 
 
 Finally, one can find a sample spring boot application with configuration to send data to haystack agent @  https://github.com/mchandramouli/haystack-springbootsample
 
