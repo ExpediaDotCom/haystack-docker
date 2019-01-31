@@ -28,4 +28,5 @@ services:
     environment:
       HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
       HAYSTACK_CONNECTORS_SERVICE__GRAPH_CONNECTOR__NAME: "haystack"
+      HAYSTACK_CONNECTORS_SERVICE__GRAPH_WINDOW__SIZE__IN__SECS: 3600
       HAYSTACK_CONNECTORS_SERVICE__GRAPH_SERVICE__GRAPH__URL: "http://graph-builder:8091/servicegraph"
