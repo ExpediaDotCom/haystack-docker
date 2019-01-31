@@ -13,7 +13,7 @@ services:
       MT_MEMORY_IDX_TAG_SUPPORT: "true"
     depends_on:
       - "kafkasvc"
-    restart: on-failure
+    restart: always
 #    ports:
 #      - "6060:6060"
 

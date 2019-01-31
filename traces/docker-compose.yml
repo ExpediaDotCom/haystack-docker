@@ -8,6 +8,7 @@ services:
       JAVA_XMS: 128m
     depends_on:
       - "cassandra"
+    restart: always
 #    ports:
 #      - "8090:8090"
       
@@ -17,16 +18,19 @@ services:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
       JAVA_XMS: 128m
+    restart: always
 
   trace-indexer:
     image: expediadotcom/haystack-trace-indexer
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
+      HAYSTACK_PROP_SERVICE_METADATA_ENABLED: "true"
       HAYSTACK_LOG_LEVEL: "INFO"
       JAVA_XMS: 128m
     depends_on:
       - "elasticsearch"
+    restart: always
 
   ui:
     environment:

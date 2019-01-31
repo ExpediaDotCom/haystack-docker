@@ -5,8 +5,8 @@ services:
     environment:
       JAVA_XMS: 128m
       HAYSTACK_GRAPHITE_ENABLED: "false"
-      HAYSTACK_PROP_KAFKA_NODE_METADATA_PARTITION_COUNT: "1"
-      HAYSTACK_PROP_KAFKA_NODE_METADATA_REPLICATION_FACTOR: "1"
+      HAYSTACK_PROP_KAFKA_NODE_METADATA_TOPIC_PARTITION_COUNT: "1"
+      HAYSTACK_PROP_KAFKA_NODE_METADATA_TOPIC_REPLICATION_FACTOR: "1"
     depends_on:
       - "kafkasvc"
     restart: always
@@ -17,12 +17,15 @@ services:
         JAVA_XMS: 128m
         HAYSTACK_GRAPHITE_ENABLED: "false"
         HAYSTACK_PROP_SERVICE_HTTP_PORT: "8091"
+        HAYSTACK_PROP_KAFKA_STREAMS_REPLICATION_FACTOR: 1
       depends_on:
         - "kafkasvc"
       restart: always
+      ports:
+        - "8091:8091"
 
   ui:
     environment:
       HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
       HAYSTACK_CONNECTORS_SERVICE__GRAPH_CONNECTOR__NAME: "haystack"
-      HAYSTACK_CONNECTORS_SERVICE__GRAPH_SERVICE__GRAPH__URL: "http://graph-builder:8091"
+      HAYSTACK_CONNECTORS_SERVICE__GRAPH_SERVICE__GRAPH__URL: "http://graph-builder:8091/servicegraph"
