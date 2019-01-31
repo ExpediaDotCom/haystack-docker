@@ -1,0 +1,28 @@
+version: "3"
+services:
+  node-finder:
+    image: expediadotcom/haystack-service-graph-node-finder
+    environment:
+      JAVA_XMS: 128m
+      HAYSTACK_GRAPHITE_ENABLED: "false"
+      HAYSTACK_PROP_KAFKA_NODE_METADATA_PARTITION_COUNT: "1"
+      HAYSTACK_PROP_KAFKA_NODE_METADATA_REPLICATION_FACTOR: "1"
+    depends_on:
+      - "kafkasvc"
+    restart: always
+
+  graph-builder:
+      image: expediadotcom/haystack-service-graph-graph-builder
+      environment:
+        JAVA_XMS: 128m
+        HAYSTACK_GRAPHITE_ENABLED: "false"
+        HAYSTACK_PROP_SERVICE_HTTP_PORT: "8091"
+      depends_on:
+        - "kafkasvc"
+      restart: always
+
+  ui:
+    environment:
+      HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
+      HAYSTACK_CONNECTORS_SERVICE__GRAPH_CONNECTOR__NAME: "haystack"
+      HAYSTACK_CONNECTORS_SERVICE__GRAPH_SERVICE__GRAPH__URL: "http://graph-builder:8091"

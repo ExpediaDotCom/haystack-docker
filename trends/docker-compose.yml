@@ -23,6 +23,7 @@ services:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_HEALTH_STATUS_PATH: "/app/isHealthy"
       HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
+      HAYSTACK_PROP_KAFKA_PRODUCER_TOPIC: "metric-data-points"
       JAVA_XMS: 128m
     depends_on:
       - "kafkasvc"
@@ -34,6 +35,7 @@ services:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_HEALTH_STATUS_PATH: "/app/isHealthy"
       HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
+      HAYSTACK_PROP_KAFKA_CONSUMER_TOPIC: "metric-data-points"
       JAVA_XMS: 128m
     depends_on:
       - "kafkasvc"
