@@ -1,3 +1,9 @@
+- [Running Haystack using docker-compose](#running-haystack-using-docker-compose)
+  * [Allocate memory to docker](#allocate-memory-to-docker)
+  * [To start Haystack's traces, trends and service graph](#to-start-haystacks-traces-trends-and-service-graph)
+  * [To start Zipkin (tracing) with Haystack's trends and service graph](#to-start-zipkin-tracing-with-haystacks-trends-and-service-graph)
+  * [Note on composing components](#note-on-composing-components)[v10.15.0]
+
 ## Running Haystack using docker-compose
 
 ### Allocate memory to docker
@@ -35,7 +41,7 @@ The command above starts [Pitchfork](https://github.com/HotelsDotCom/pitchfork) 
 Give a minute or two for the containers to come up and connect with each other.  Once the stack is up, one can use the sample application @ https://github.com/openzipkin/brave-webmvc-example and send some sample data to see traces (from Zipkin), trends and service-graph in haystack-ui @ http://localhost:8080
 
 
-### Composing components
+### Note on composing components
 
 Note the two commands above add a series of `docker-compose.yml` files. 
 
