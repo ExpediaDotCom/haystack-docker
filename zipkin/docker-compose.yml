@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  pitchfork:
+    image: hotelsdotcom/pitchfork:latest
+    ports:
+      - "9411:9411"
+    environment:
+      PITCHFORK_FORWARDERS_LOGGING_ENABLED: "true"
+      PITCHFORK_FORWARDERS_LOGGING_LOG_FULL_SPAN: "true"
+      PITCHFORK_FORWARDERS_ZIPKIN_HTTP_ENABLED: "true"
+      PITCHFORK_FORWARDERS_ZIPKIN_HTTP_ENDPOINT: "http://zipkin:9411/api/v2/spans"
+      PITCHFORK_FORWARDERS_HAYSTACK_KAFKA_ENABLED: "true"
+      PITCHFORK_FORWARDERS_HAYSTACK_KAFKA_BOOTSTRAP_SERVERS: "kafkasvc:9092"
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    environment:
+      STORAGE_TYPE: elasticsearch
+      ES_HOSTS: elasticsearch
+      KAFKA_BOOTSTRAP_SERVERS: kafkasvc:9092
+    ports:
+      - "9412:9411"
+    depends_on:
+      - elasticsearch
+      - kafkasvc
+
+  ui:
+    environment:
+      HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
+      HAYSTACK_CONNECTORS_TRACES_CONNECTOR__NAME: "zipkin"
+      HAYSTACK_CONNECTORS_TRACES_ZIPKIN__URL: 'http://zipkin:9411/api/v2'
