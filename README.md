@@ -2,7 +2,7 @@
   * [Allocate memory to docker](#allocate-memory-to-docker)
   * [To start Haystack's traces, trends and service graph](#to-start-haystacks-traces-trends-and-service-graph)
   * [To start Zipkin (tracing) with Haystack's trends and service graph](#to-start-zipkin-tracing-with-haystacks-trends-and-service-graph)
-  * [Note on composing components](#note-on-composing-components)[v10.15.0]
+  * [Note on composing components](#note-on-composing-components)
 
 ## Running Haystack using docker-compose
 
