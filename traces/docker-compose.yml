@@ -26,7 +26,6 @@ services:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
       HAYSTACK_PROP_SERVICE_METADATA_ENABLED: "true"
-      HAYSTACK_LOG_LEVEL: "INFO"
       JAVA_XMS: 128m
     depends_on:
       - "elasticsearch"
