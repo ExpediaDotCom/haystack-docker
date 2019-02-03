@@ -15,7 +15,7 @@ services:
       HEAP_NEWSIZE: 256m
 #    ports:
 #      - "9042:9042"
-      
+
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -26,13 +26,18 @@ services:
     depends_on:
       - zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: "kafkasvc"
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafkasvc:9092,OUTSIDE://localhost:19092
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "proto-spans:1:1,metricpoints:1:1,metric-data-points:1:1,mdm:1:1,graph-nodes:1:1,service-graph:1:1"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "9092:9092"
+      - "19092:19092"
 
   ui:
     image: expediadotcom/haystack-ui
