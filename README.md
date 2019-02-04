@@ -18,7 +18,7 @@ To run all of haystack and its components, __it is suggested to change the defau
 docker-compose -f docker-compose.yml \
                -f traces/docker-compose.yml \
                -f trends/docker-compose.yml \
-               -f service-graph/docker-compose \
+               -f service-graph/docker-compose.yml \
                -f agent/docker-compose.yml up
 ```
 
