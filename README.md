@@ -33,7 +33,7 @@ Finally, one can find a sample spring boot application @  https://github.com/mch
 docker-compose -f docker-compose.yml \
                -f zipkin/docker-compose.yml \
                -f trends/docker-compose.yml \
-               -f service-graph/docker-compose up
+               -f service-graph/docker-compose.yml up
 ```
 
 The command above starts [Pitchfork](https://github.com/HotelsDotCom/pitchfork) to proxy data to [Zipkin](https://github.com/openzipkin/) and Haystack. 
