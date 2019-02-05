@@ -2,7 +2,7 @@
   * [Allocate memory to docker](#allocate-memory-to-docker)
   * [To start Haystack's traces, trends and service graph](#to-start-haystacks-traces-trends-and-service-graph)
   * [To start Zipkin (tracing) with Haystack's trends and service graph](#to-start-zipkin-tracing-with-haystacks-trends-and-service-graph)
-  * [Note on composing components](#note-on-composing-components)[v10.15.0]
+  * [Note on composing components](#note-on-composing-components)
 
 ## Running Haystack using docker-compose
 
@@ -10,7 +10,7 @@
 
 Please check this [Stackoverflow answer](https://stackoverflow.com/questions/44533319/how-to-assign-more-memory-to-docker-container) 
 
-To run all of haystack and its components, **it is suggested to change the default in docker settings from `2GiB` to `4GiB`**
+To run all of haystack and its components, __it is suggested to change the default in docker settings from `2GiB` to `4GiB`__
 
 ### To start Haystack's traces, trends and service graph
 
@@ -18,13 +18,13 @@ To run all of haystack and its components, **it is suggested to change the defau
 docker-compose -f docker-compose.yml \
                -f traces/docker-compose.yml \
                -f trends/docker-compose.yml \
-               -f service-graph/docker-compose \
+               -f service-graph/docker-compose.yml \
                -f agent/docker-compose.yml up
 ```
 
 The command above starts haystack-agent as well.  Give a minute or two for the containers to come up and connect with each other. Haystack's UI will be available at http://localhost:8080 
 
-Finally, one can find a sample spring boot application @  https://github.com/mchandramouli/haystack-springbootsample to send data to Haystack via haystack-agent listening in port 34000. 
+Finally, one can find a sample spring boot application @  https://github.com/ExpediaDotCom/opentracing-spring-haystack-example to send data to Haystack via haystack-agent listening in port 34000. 
 
 
 ### To start Zipkin (tracing) with Haystack's trends and service graph
@@ -33,7 +33,7 @@ Finally, one can find a sample spring boot application @  https://github.com/mch
 docker-compose -f docker-compose.yml \
                -f zipkin/docker-compose.yml \
                -f trends/docker-compose.yml \
-               -f service-graph/docker-compose up
+               -f service-graph/docker-compose.yml up
 ```
 
 The command above starts [Pitchfork](https://github.com/HotelsDotCom/pitchfork) to proxy data to [Zipkin](https://github.com/openzipkin/) and Haystack. 
