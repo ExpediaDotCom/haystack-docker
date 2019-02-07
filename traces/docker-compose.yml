@@ -41,6 +41,8 @@ services:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
       HAYSTACK_PROP_SERVICE_METADATA_ENABLED: "true"
+      HAYSTACK_PROP_KAFKA_MAX_WAKEUPS: "100"
+      HAYSTACK_PROP_SERVICE_METADATA_FLUSH_INTERVAL_SEC: "0"
       JAVA_XMS: 128m
     depends_on:
       - "elasticsearch"
