@@ -78,7 +78,7 @@ services:
     restart: always
 
   subscription:
-    image: expediadotcom/alert-manager-service:86b135bd84816720198f49b0b6e5722fb6fcbb26
+    image: expediadotcom/alert-manager-service:67a10b9e28dfc51e806b9ee629ad91a7dfc1d505
     environment:
       AM_GRAPHITE_ENABLED : "false"
       SPRING_CONFIG_LOCATION : "classpath:/application.yml"
@@ -90,8 +90,7 @@ services:
     restart: always
 
   notifier:
-#    image: alert-manager-notifier:latest
-    image: expediadotcom/alert-manager-notifier:86b135bd84816720198f49b0b6e5722fb6fcbb26
+    image: expediadotcom/alert-manager-notifier:67a10b9e28dfc51e806b9ee629ad91a7dfc1d505
     environment:
       AM_GRAPHITE_ENABLED : "false"
       SPRING_CONFIG_LOCATION : "classpath:/application.yml"
