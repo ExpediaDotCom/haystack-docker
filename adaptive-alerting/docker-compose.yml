@@ -1,0 +1,149 @@
+version: "3"
+services:
+
+  database:
+    image: mysql:5.7
+    ports:
+    - "3306:3306"
+    restart: always
+    volumes:
+      -  ./adaptive-alerting/sql:/home/
+      -  ./adaptive-alerting/db_init:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: aa_model_service
+
+
+  modelservice:
+    image: expediadotcom/adaptive-alerting-modelservice:e90821e5ca0e0d895e01d9cb87612c463dcf0dc6
+    ports:
+    - "8008:8008"
+    environment:
+      AA_GRAPHITE_ENABLED : "false"
+      SPRING_CONFIG_LOCATION : "classpath:/application.yml"
+      PASSWORD : "root"
+      JAVA_XMS: 128m
+    depends_on:
+      - database
+    links:
+      - database
+    restart: always
+
+
+  aa-mapper:
+    image: expediadotcom/adaptive-alerting-ad-mapper:e90821e5ca0e0d895e01d9cb87612c463dcf0dc6
+    environment:
+      AA_GRAPHITE_ENABLED : "false"
+      AA_OVERRIDES_CONFIG_PATH : "/home/docker.conf"
+      JAVA_XMS: 128m
+    volumes:
+      - ./adaptive-alerting/configs/aa-mapper:/home
+    depends_on:
+    - kafkasvc
+    - zookeeper
+    - modelservice
+    links:
+    - kafkasvc
+    - modelservice
+    restart: always
+
+  aa-manager:
+    image: expediadotcom/adaptive-alerting-ad-manager:e90821e5ca0e0d895e01d9cb87612c463dcf0dc6
+    environment:
+      AA_GRAPHITE_ENABLED : "false"
+      AA_OVERRIDES_CONFIG_PATH : "/home/docker.conf"
+      JAVA_XMS: 128m
+    volumes:
+      - ./adaptive-alerting/configs/aa-manager:/home
+    depends_on:
+    - kafkasvc
+    - zookeeper
+    - modelservice
+    links:
+    - kafkasvc
+    - modelservice
+    restart: always
+
+  anomaly-to-alert:
+    image: expediadotcom/adaptive-alerting-a2a-mapper:e90821e5ca0e0d895e01d9cb87612c463dcf0dc6
+    environment:
+      AA_GRAPHITE_ENABLED : "false"
+      JAVA_XMS: 128m
+    depends_on:
+    - kafkasvc
+    - zookeeper
+    links:
+    - kafkasvc
+    restart: always
+
+  subscription:
+    image: expediadotcom/alert-manager-service:86b135bd84816720198f49b0b6e5722fb6fcbb26
+    environment:
+      AM_GRAPHITE_ENABLED : "false"
+      SPRING_CONFIG_LOCATION : "classpath:/application.yml"
+      JAVA_XMS: 128m
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+    restart: always
+
+  notifier:
+#    image: alert-manager-notifier:latest
+    image: expediadotcom/alert-manager-notifier:86b135bd84816720198f49b0b6e5722fb6fcbb26
+    environment:
+      AM_GRAPHITE_ENABLED : "false"
+      SPRING_CONFIG_LOCATION : "classpath:/application.yml"
+      JAVA_XMS: 128m
+    depends_on:
+      - elasticsearch
+      - subscription
+      - zookeeper
+      - kafkasvc
+    links:
+      - elasticsearch
+      - kafkasvc
+      - subscription
+    restart: always
+
+
+  alert-api:
+    image: expediadotcom/haystack-alert-api:611c92ce1cba512ef25c5e5991a488fbc3527342
+    environment:
+      HAYSTACK_GRAPHITE_ENABLED: "false"
+      HAYSTACK_LOG_LEVEL: "INFO"
+      JAVA_XMS: 128m
+    depends_on:
+      - elasticsearch
+      - subscription
+    links:
+      - elasticsearch
+      - subscription
+    restart: always
+
+
+  anomaly-store:
+    image: expediadotcom/haystack-anomaly-store:611c92ce1cba512ef25c5e5991a488fbc3527342
+    environment:
+      HAYSTACK_GRAPHITE_ENABLED: "false"
+      HAYSTACK_LOG_LEVEL: "INFO"
+      JAVA_XMS: 128m
+    depends_on:
+      - elasticsearch
+      - kafkasvc
+    links:
+      - kafkasvc
+      - elasticsearch
+    restart: always
+
+
+  ui:
+      environment:
+        HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
+        HAYSTACK_CONNECTORS_ALERTS_CONNECTOR__NAME: "haystack"
+        HAYSTACK_CONNECTORS_ALERTS_SUBSCRIPTIONS_CONNECTOR__NAME: "haystack"
+        HAYSTACK_CONNECTORS_ALERTS_HAYSTACK__HOST: "alert-api"
+        HAYSTACK_CONNECTORS_ALERTS_HAYSTACK__PORT: "8088"
+
+
