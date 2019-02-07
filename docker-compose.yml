@@ -4,8 +4,9 @@ services:
     image: elastic/elasticsearch:6.0.1
     environment:
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-#    ports:
-#      - "9200:9200"
+      xpack.security.enabled: "false"
+    ports:
+      - "9200:9200"
     restart: always
 
   cassandra:
@@ -32,7 +33,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "proto-spans:1:1,metricpoints:1:1,metric-data-points:1:1,mdm:1:1,graph-nodes:1:1,service-graph:1:1"
+      KAFKA_CREATE_TOPICS: "proto-spans:1:1,metricpoints:1:1,metric-data-points:1:1,mdm:1:1,metrics:1:1,graph-nodes:1:1,service-graph:1:1,mapped-metrics:1:1,anomalies:1:1,alerts:1:1"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
