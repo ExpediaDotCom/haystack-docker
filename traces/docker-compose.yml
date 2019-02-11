@@ -24,6 +24,7 @@ services:
     depends_on:
       - "cassandra"
     restart: always
+    # uncomment below port mapping to expose and connect to the application out of local docker container network
 #    ports:
 #      - "8090:8090"
       

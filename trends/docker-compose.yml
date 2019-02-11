@@ -29,6 +29,7 @@ services:
     depends_on:
       - "kafkasvc"
     restart: always
+    # uncomment below port mapping to expose and connect to the application out of local docker container network
 #    ports:
 #      - "6060:6060"
 
