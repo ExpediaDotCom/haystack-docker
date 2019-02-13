@@ -16,7 +16,7 @@
 version: "3"
 services:
   storage-backend:
-    image: expediadotcom/haystack-trace-backend-cassandra
+    image: expediadotcom/haystack-trace-backend-cassandra:1.0.8
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_LOG_LEVEL: "DEBUG"
@@ -28,7 +28,7 @@ services:
 #      - "8090:8090"
       
   trace-reader:
-    image: expediadotcom/haystack-trace-reader
+    image: expediadotcom/haystack-trace-reader:1.0.8
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
@@ -36,7 +36,7 @@ services:
     restart: always
 
   trace-indexer:
-    image: expediadotcom/haystack-trace-indexer
+    image: expediadotcom/haystack-trace-indexer:1.0.8
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
@@ -52,5 +52,6 @@ services:
     environment:
       HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
       HAYSTACK_CONNECTORS_TRACES_CONNECTOR__NAME: "haystack"
+      HAYSTACK_CONNECTORS_TRACES_SERVICE__REFRESH__INTERVAL__IN__SECS: "0"
       HAYSTACK_CONNECTORS_TRACES_HAYSTACK__HOST: "trace-reader"
       HAYSTACK_CONNECTORS_TRACES_HAYSTACK__PORT: "8088"

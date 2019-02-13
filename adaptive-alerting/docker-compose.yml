@@ -1,34 +1,41 @@
 version: "3"
 services:
 
-  database:
-    image: mysql:5.7
-    ports:
-    - "3306:3306"
-    restart: always
-    volumes:
-      -  ./adaptive-alerting/sql:/home/
-      -  ./adaptive-alerting/db_init:/docker-entrypoint-initdb.d
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: aa_model_service
-
+#  database:
+#    image: mysql:5.7
+#    ports:
+#    - "3306:3306"
+#    restart: always
+#    volumes:
+#      -  ./adaptive-alerting/sql:/home/
+#      -  ./adaptive-alerting/db_init:/docker-entrypoint-initdb.d
+#    command: --default-authentication-plugin=mysql_native_password
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: aa_model_service
+#
+#
+#  modelservice:
+#    image: expediadotcom/adaptive-alerting-modelservice:e90821e5ca0e0d895e01d9cb87612c463dcf0dc6
+#    ports:
+#    - "8008:8008"
+#    environment:
+#      AA_GRAPHITE_ENABLED : "false"
+#      SPRING_CONFIG_LOCATION : "classpath:/application.yml"
+#      PASSWORD : "root"
+#      JAVA_XMS: 128m
+#    depends_on:
+#      - database
+#    links:
+#      - database
+#    restart: always
 
   modelservice:
-    image: expediadotcom/adaptive-alerting-modelservice:e90821e5ca0e0d895e01d9cb87612c463dcf0dc6
-    ports:
-    - "8008:8008"
-    environment:
-      AA_GRAPHITE_ENABLED : "false"
-      SPRING_CONFIG_LOCATION : "classpath:/application.yml"
-      PASSWORD : "root"
-      JAVA_XMS: 128m
-    depends_on:
-      - database
-    links:
-      - database
-    restart: always
+    image: rodolpheche/wiremock
+#    ports:
+#    - "8500:8080"
+    volumes:
+    - ./adaptive-alerting/stubs:/home/wiremock/
 
 
   aa-mapper:
@@ -66,7 +73,7 @@ services:
     restart: always
 
   anomaly-to-alert:
-    image: expediadotcom/adaptive-alerting-a2a-mapper:e90821e5ca0e0d895e01d9cb87612c463dcf0dc6
+    image: expediadotcom/adaptive-alerting-a2a-mapper:3482d04bcee0c62b1d64e5cf9b289f243d03a77b
     environment:
       AA_GRAPHITE_ENABLED : "false"
       JAVA_XMS: 128m
@@ -89,26 +96,34 @@ services:
       - elasticsearch
     restart: always
 
-  notifier:
-    image: expediadotcom/alert-manager-notifier:67a10b9e28dfc51e806b9ee629ad91a7dfc1d505
-    environment:
-      AM_GRAPHITE_ENABLED : "false"
-      SPRING_CONFIG_LOCATION : "classpath:/application.yml"
-      JAVA_XMS: 128m
-    depends_on:
-      - elasticsearch
-      - subscription
-      - zookeeper
-      - kafkasvc
-    links:
-      - elasticsearch
-      - kafkasvc
-      - subscription
-    restart: always
+
+# tell about kafka client to read alerts from kafka topic
+#  notifier:
+#    image: expediadotcom/alert-manager-notifier:3117ece498d619d560939b5acc6bc948b23899da
+#    environment:
+#      AM_GRAPHITE_ENABLED : "false"
+#      SPRING_CONFIG_LOCATION : "classpath:/application.yml"
+##       SMTP_PASSWORD: "password"
+##       SMTP_USERNAME: "user"
+##       SMTP_HOST: "localhost"
+##       SLACK_TOKEN: "token"
+#      JAVA_XMS: 128m
+#    depends_on:
+#      - elasticsearch
+#      - subscription
+#      - zookeeper
+#      - kafkasvc
+#    links:
+#      - elasticsearch
+#      - kafkasvc
+#      - subscription
+#    restart: always
 
 
   alert-api:
-    image: expediadotcom/haystack-alert-api:611c92ce1cba512ef25c5e5991a488fbc3527342
+    image: expediadotcom/haystack-alert-api:f63141bbc1c1e671766b5e83b0e8efb605ab0402
+    ports:
+    - "4500:8088"
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_LOG_LEVEL: "INFO"
@@ -123,7 +138,7 @@ services:
 
 
   anomaly-store:
-    image: expediadotcom/haystack-anomaly-store:611c92ce1cba512ef25c5e5991a488fbc3527342
+    image: expediadotcom/haystack-anomaly-store:f63141bbc1c1e671766b5e83b0e8efb605ab0402
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_LOG_LEVEL: "INFO"
