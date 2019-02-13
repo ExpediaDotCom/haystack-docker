@@ -55,7 +55,7 @@ The command above starts haystack-agent as well.  Give a minute or two for the c
 
 Finally, one can find a sample spring boot application @  https://github.com/ExpediaDotCom/opentracing-spring-haystack-example to send data to Haystack via haystack-agent listening in port 34000.
 
-#####Note:
+##### Note:
 * ModelService that fetches anomaly detection models and detectors is mocked using wiremock. It can be uncommented and for actual testing if required. 
 * Alert-Notification service that dispatches alerts to either email or slack is commented in docker-compose file for local testing. You can uncomment it and provide slack_token or smtp credentials via environment.
 
