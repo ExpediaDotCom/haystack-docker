@@ -58,5 +58,5 @@ services:
   ui:
     environment:
       HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
-      HAYSTACK_CONNECTORS_TRENDS_CONNECTOR__NAME: "haystack"
-      HAYSTACK_CONNECTORS_TRENDS_METRIC__TANK__URL: "http://metrictank:6060"
+      HAYSTACK_PROP_CONNECTORS_TRENDS_CONNECTOR__NAME: "haystack"
+      HAYSTACK_PROP_CONNECTORS_TRENDS_METRIC__TANK__URL: "http://metrictank:6060"
