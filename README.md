@@ -50,6 +50,24 @@ The command above starts [Pitchfork](https://github.com/HotelsDotCom/pitchfork) 
 Give a minute or two for the containers to come up and connect with each other.  Once the stack is up, one can use the sample application @ https://github.com/openzipkin/brave-webmvc-example and send some sample data to see traces (from Zipkin), trends and service-graph in haystack-ui @ http://localhost:8080
 
 
+### To start Haystack's traces, trends and adaptive-alerting
+
+```
+docker-compose -f docker-compose.yml \ 
+               -f trends/docker-compose.yml \
+               -f adaptive-alerting/docker-compose.yml \
+               -f agent/docker-compose.yml \ 
+               -f traces/docker-compose.yml up
+```
+
+The command above starts haystack-agent as well.  Give a minute or two for the containers to come up and connect with each other. Haystack's UI will be available at http://localhost:8080 
+
+Finally, one can find a sample spring boot application @  https://github.com/ExpediaDotCom/opentracing-spring-haystack-example to send data to Haystack via haystack-agent listening in port 34000.
+
+##### Note:
+* ModelService that fetches anomaly detection models and detectors is mocked using wiremock. It can be uncommented and for actual testing if required. 
+* Alert-Notification service that dispatches alerts to either email or slack is commented in docker-compose file for local testing. You can uncomment it and provide slack_token or smtp credentials via environment.
+
 ### Note on composing components
 
 Note the two commands above add a series of `docker-compose.yml` files. 

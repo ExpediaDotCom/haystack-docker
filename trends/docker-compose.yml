@@ -34,7 +34,7 @@ services:
 #      - "6060:6060"
 
   trends-transformer:
-    image: expediadotcom/haystack-span-timeseries-transformer
+    image: expediadotcom/haystack-span-timeseries-transformer:1.1.0
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
@@ -45,7 +45,7 @@ services:
     restart: always
 
   trends-aggregator:
-    image: expediadotcom/haystack-timeseries-aggregator
+    image: expediadotcom/haystack-timeseries-aggregator:1.1.0
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
