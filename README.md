@@ -10,7 +10,7 @@
 
 Please check this [Stackoverflow answer](https://stackoverflow.com/questions/44533319/how-to-assign-more-memory-to-docker-container) 
 
-To run all of haystack and its components, __it is suggested to change the default in docker settings from `2GiB` to `4GiB`__
+To run all of haystack and its components, __it is suggested to change the default in docker settings from `2GiB` to `6GiB`__
 
 ### To start Haystack's traces, trends and service graph
 
