@@ -44,5 +44,5 @@ services:
   ui:
     environment:
       HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
-      HAYSTACK_CONNECTORS_TRACES_CONNECTOR__NAME: "zipkin"
-      HAYSTACK_CONNECTORS_TRACES_ZIPKIN__URL: 'http://zipkin:9411/api/v2'
+      HAYSTACK_PROP_CONNECTORS_TRACES_CONNECTOR__NAME: "zipkin"
+      HAYSTACK_PROP_CONNECTORS_TRACES_ZIPKIN__URL: 'http://zipkin:9411/api/v2'

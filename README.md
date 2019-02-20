@@ -22,10 +22,19 @@ docker-compose -f docker-compose.yml \
                -f agent/docker-compose.yml up
 ```
 
-The command above starts haystack-agent as well.  Give a minute or two for the containers to come up and connect with each other. Haystack's UI will be available at http://localhost:8080 
+The command above starts haystack components and also two sample web applications and haystack-agent.  Give a minute or two for the containers to come up and connect with each other. 
 
-Finally, one can find a sample spring boot application @  https://github.com/ExpediaDotCom/opentracing-spring-haystack-example to send data to Haystack via haystack-agent listening in port 34000. 
+Haystack's UI will be available at http://localhost:8080 
 
+[Sample application](https://github.com/ExpediaDotCom/opentracing-spring-haystack-example) has a 'frontend' and 'backend'. The 'frontend' app will be available in at http://localhost:9090/hello. Sending a request to frontend will cause a call to the backend before fulfilling this request. 
+
+Send some sample requests to the 'frontend' application by running 
+
+```bash
+run.sh
+```
+
+One can then see the traces, trends and a service-graph showing the relationship between the two applications in the UI.
 
 ### To start Zipkin (tracing) with Haystack's trends and service graph
 

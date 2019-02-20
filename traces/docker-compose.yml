@@ -24,6 +24,7 @@ services:
     depends_on:
       - "cassandra"
     restart: always
+    # uncomment below port mapping to expose and connect to this application out of local docker container network
 #    ports:
 #      - "8090:8090"
       
@@ -51,7 +52,7 @@ services:
   ui:
     environment:
       HAYSTACK_OVERRIDES_CONFIG_PATH: /data/connectors.json
-      HAYSTACK_CONNECTORS_TRACES_CONNECTOR__NAME: "haystack"
+      HAYSTACK_PROP_CONNECTORS_TRACES_CONNECTOR__NAME: "haystack"
       HAYSTACK_CONNECTORS_TRACES_SERVICE__REFRESH__INTERVAL__IN__SECS: "0"
-      HAYSTACK_CONNECTORS_TRACES_HAYSTACK__HOST: "trace-reader"
-      HAYSTACK_CONNECTORS_TRACES_HAYSTACK__PORT: "8088"
+      HAYSTACK_PROP_CONNECTORS_TRACES_HAYSTACK__HOST: "trace-reader"
+      HAYSTACK_PROP_CONNECTORS_TRACES_HAYSTACK__PORT: "8088"
