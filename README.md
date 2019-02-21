@@ -58,7 +58,7 @@ Give a minute or two for the containers to come up and connect with each other. 
 docker-compose -f docker-compose.yml \ 
                -f trends/docker-compose.yml \
                -f adaptive-alerting/docker-compose.yml \
-               -f agent/docker-compose.yml \ 
+               -f examples/docker-compose.yml \ 
                -f traces/docker-compose.yml up
 ```
 
