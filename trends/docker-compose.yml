@@ -34,23 +34,25 @@ services:
 #      - "6060:6060"
 
   trends-transformer:
-    image: expediadotcom/haystack-span-timeseries-transformer:1.1.0
+    image: expediadotcom/haystack-span-timeseries-transformer
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
       HAYSTACK_PROP_KAFKA_PRODUCER_TOPIC: "metric-data-points"
       JAVA_XMS: 128m
+    entrypoint: ["/dockerize","-wait=tcp://kafkasvc:9092","-timeout=200s","-wait-retry-interval=40s","--","./start-app.sh"]
     depends_on:
       - "kafkasvc"
     restart: always
 
   trends-aggregator:
-    image: expediadotcom/haystack-timeseries-aggregator:1.1.0
+    image: expediadotcom/haystack-timeseries-aggregator
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_KAFKA_STREAMS_BOOTSTRAP_SERVERS: "kafkasvc:9092"
       HAYSTACK_PROP_KAFKA_CONSUMER_TOPIC: "metric-data-points"
       JAVA_XMS: 128m
+    entrypoint: ["/dockerize","-wait=tcp://kafkasvc:9092","-timeout=200s","-wait-retry-interval=40s","--","./start-app.sh"]
     depends_on:
       - "kafkasvc"
     restart: always

@@ -16,7 +16,7 @@
 version: "3"
 services:
   node-finder:
-    image: expediadotcom/haystack-service-graph-node-finder:1.0.16
+    image: expediadotcom/haystack-service-graph-node-finder
     environment:
       JAVA_XMS: 128m
       HAYSTACK_GRAPHITE_ENABLED: "false"
@@ -24,10 +24,11 @@ services:
       HAYSTACK_PROP_KAFKA_NODE_METADATA_TOPIC_REPLICATION_FACTOR: "1"
     depends_on:
       - "kafkasvc"
+    entrypoint: ["/dockerize","-wait=tcp://kafkasvc:9092","-timeout=200s","-wait-retry-interval=40s","--","./start-app.sh"]
     restart: always
 
   graph-builder:
-      image: expediadotcom/haystack-service-graph-graph-builder:1.0.16
+      image: expediadotcom/haystack-service-graph-graph-builder
       environment:
         JAVA_XMS: 128m
         HAYSTACK_GRAPHITE_ENABLED: "false"
@@ -35,6 +36,7 @@ services:
         HAYSTACK_PROP_KAFKA_STREAMS_REPLICATION_FACTOR: 1
       depends_on:
         - "kafkasvc"
+      entrypoint: ["/dockerize","-wait=tcp://kafkasvc:9092","-timeout=200s","-wait-retry-interval=40s","--","./start-app.sh"]
       restart: always
       ports:
         - "8091:8091"
