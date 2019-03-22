@@ -16,28 +16,30 @@
 version: "3"
 services:
   storage-backend:
-    image: expediadotcom/haystack-trace-backend-cassandra:1.0.8
+    image: expediadotcom/haystack-trace-backend-cassandra
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_LOG_LEVEL: "DEBUG"
       JAVA_XMS: 128m
     depends_on:
       - "cassandra"
+    entrypoint: ["/dockerize","-wait=tcp://cassandra:9042","-timeout=200s","-wait-retry-interval=20s","--","./start-app.sh"]
     restart: always
     # uncomment below port mapping to expose and connect to this application out of local docker container network
 #    ports:
 #      - "8090:8090"
       
   trace-reader:
-    image: expediadotcom/haystack-trace-reader:1.0.8
+    image: expediadotcom/haystack-trace-reader
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
       JAVA_XMS: 128m
+    entrypoint: ["/dockerize","-wait=tcp://storage-backend:8090","-timeout=200s","-wait-retry-interval=40s","--","./start-app.sh"]
     restart: always
 
   trace-indexer:
-    image: expediadotcom/haystack-trace-indexer:1.0.8
+    image: expediadotcom/haystack-trace-indexer
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
@@ -45,6 +47,7 @@ services:
       HAYSTACK_PROP_KAFKA_MAX_WAKEUPS: "100"
       HAYSTACK_PROP_SERVICE_METADATA_FLUSH_INTERVAL_SEC: "0"
       JAVA_XMS: 128m
+    entrypoint: ["/dockerize","-wait=tcp://kafkasvc:9092","-timeout=200s","-wait-retry-interval=40s","--","./start-app.sh"]
     depends_on:
       - "elasticsearch"
     restart: always
