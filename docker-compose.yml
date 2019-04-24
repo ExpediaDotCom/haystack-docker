@@ -57,7 +57,7 @@ services:
       - "19092:19092"
 
   ui:
-    image: expediadotcom/haystack-ui:1.1.4
+    image: expediadotcom/haystack-ui:1.1.6
     volumes:
       - ./:/data
     ports:

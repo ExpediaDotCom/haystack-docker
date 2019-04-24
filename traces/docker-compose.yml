@@ -30,7 +30,7 @@ services:
 #      - "8090:8090"
       
   trace-reader:
-    image: expediadotcom/haystack-trace-reader
+    image: expediadotcom/haystack-trace-reader:1.0.10
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
@@ -39,7 +39,7 @@ services:
     restart: always
 
   trace-indexer:
-    image: expediadotcom/haystack-trace-indexer
+    image: expediadotcom/haystack-trace-indexer:1.0.10
     environment:
       HAYSTACK_GRAPHITE_ENABLED: "false"
       HAYSTACK_PROP_BACKEND_CLIENT_HOST: "storage-backend"
