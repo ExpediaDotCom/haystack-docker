@@ -16,7 +16,7 @@
 version: "3"
 services:
   node-finder:
-    image: expediadotcom/haystack-service-graph-node-finder
+    image: expediadotcom/haystack-service-graph-node-finder:1.0.17
     environment:
       JAVA_XMS: 128m
       HAYSTACK_GRAPHITE_ENABLED: "false"
@@ -28,7 +28,7 @@ services:
     restart: always
 
   graph-builder:
-      image: expediadotcom/haystack-service-graph-graph-builder
+      image: expediadotcom/haystack-service-graph-graph-builder:1.0.17
       environment:
         JAVA_XMS: 128m
         HAYSTACK_GRAPHITE_ENABLED: "false"
