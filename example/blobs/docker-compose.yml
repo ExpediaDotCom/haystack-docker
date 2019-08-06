@@ -1,0 +1,52 @@
+version: '3'
+services:
+  s3rver:
+    image: vaibhavsawhney1511/s3rver
+    ports:
+      - "5000:5000"
+
+  haystack-agent:
+      image: expediadotcom/haystack-agent:latest
+      depends_on:
+        - s3rver
+      environment:
+            JAVA_XMS: 128m
+            haystack_env_agents_spans_port: 34000
+            HAYSTACK_PROP_AGENTS_BLOBS_ENABLED: "true"
+            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_SERVICE_ENDPOINT: http://s3rver:5000
+            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_PATH_STYLE_ACCESS_ENABLED: "true"
+            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_DISABLE_CHUNKED_ENCODING: "true"
+            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_aws_access_key: "S3RVER"
+            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_aws_secret_key: "S3RVER"
+            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_BUCKET_NAME: "s3rver"
+      ports:
+        - "34000:34000"
+        - "34001:34001"
+
+  reverse-proxy:
+    image: expediadotcom/blobs-http-reverse-proxy:latest
+    depends_on:
+      - haystack-agent
+    environment:
+              grpc-server-endpoint: haystack-agent:34001
+              http-port: ":34002"
+    ports:
+      - "34002:34002"
+
+  haystack-blob-example-client:
+    image: expediadotcom/haystack-blob-example-client:01b9da48c87030c8081aa852f6209a23e576f496
+    depends_on:
+      - haystack-blob-example-server
+    expose:
+      - "9091"
+    ports:
+      - "9091:9091"
+
+  haystack-blob-example-server:
+    image: expediadotcom/haystack-blob-example-server:01b9da48c87030c8081aa852f6209a23e576f496
+    depends_on:
+      - reverse-proxy
+    expose:
+      - "9090"
+    ports:
+      - "9090:9090"
