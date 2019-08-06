@@ -6,19 +6,20 @@ services:
       - "5000:5000"
 
   haystack-agent:
-      image: expediadotcom/haystack-agent:latest
+      image: expediadotcom/haystack-agent:0.1.8
       depends_on:
         - s3rver
       environment:
             JAVA_XMS: 128m
             haystack_env_agents_spans_port: 34000
-            HAYSTACK_PROP_AGENTS_BLOBS_ENABLED: "true"
-            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_SERVICE_ENDPOINT: http://s3rver:5000
-            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_PATH_STYLE_ACCESS_ENABLED: "true"
-            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_DISABLE_CHUNKED_ENCODING: "true"
-            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_aws_access_key: "S3RVER"
-            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_aws_secret_key: "S3RVER"
-            HAYSTACK_PROP_AGENTS_BLOBS_DISPATCHERS_S3_BUCKET_NAME: "s3rver"
+            HAYSTACK_PROP_AGENTS_OSSBLOBS_ENABLED: "true"
+            HAYSTACK_PROP_AGENTS_OSSBLOBS_DISPATCHERS_S3_SERVICE_ENDPOINT: http://s3rver:5000
+            HAYSTACK_PROP_AGENTS_OSSBLOBS_DISPATCHERS_S3_PATH_STYLE_ACCESS_ENABLED: "true"
+            HAYSTACK_PROP_AGENTS_OSSBLOBS_DISPATCHERS_S3_DISABLE_CHUNKED_ENCODING: "true"
+            HAYSTACK_PROP_AGENTS_OSSBLOBS_DISPATCHERS_S3_aws_access_key: "S3RVER"
+            HAYSTACK_PROP_AGENTS_OSSBLOBS_DISPATCHERS_S3_aws_secret_key: "S3RVER"
+            HAYSTACK_PROP_AGENTS_OSSBLOBS_DISPATCHERS_S3_BUCKET_NAME: "s3rver"
+            HAYSTACK_PROP_AGENTS_OSSBLOBS_DISPATCHERS_S3_SHOULD_WAIT_FOR_UPLOAD: "false"
       ports:
         - "34000:34000"
         - "34001:34001"
