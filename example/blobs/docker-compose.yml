@@ -6,7 +6,7 @@ services:
       - "5000:5000"
 
   haystack-agent:
-      image: expediadotcom/haystack-agent:0.1.8
+      image: expediadotcom/haystack-agent:latest
       depends_on:
         - s3rver
       environment:
