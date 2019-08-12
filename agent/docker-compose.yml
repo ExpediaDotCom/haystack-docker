@@ -4,6 +4,6 @@ services:
     image: expediadotcom/haystack-agent:0.1.5
     environment:
       JAVA_XMS: 128m
-      haystack_env_agents_spans_port: 34000
+      haystack_env_agents_spans_port: 35000
     ports:
-      - "34000:34000"
+      - "35000:35000"
