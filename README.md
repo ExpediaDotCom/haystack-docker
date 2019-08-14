@@ -20,7 +20,7 @@ docker-compose -f docker-compose.yml \
                -f trends/docker-compose.yml \
                -f service-graph/docker-compose.yml \
                -f adaptive-alerting/docker-compose.yml \
-               -f example/docker-compose.yml up
+               -f example/traces/docker-compose.yml up
 ```
 
 The command above starts haystack components and also two sample web applications and haystack-agent.  Give a minute or two for the containers to come up and connect with each other. 
@@ -36,9 +36,34 @@ Send some sample requests to the 'frontend' application by running
 ```bash
 run.sh
 ```
-
 One can then see the traces, trends and a service-graph showing the relationship between the two applications in the UI.
 
+### To start Haystack's traces, blobs, trends, service graph and adaptive-alerting
+
+```
+docker-compose -f docker-compose.yml \
+               -f traces/docker-compose.yml \
+               -f trends/docker-compose.yml \
+               -f service-graph/docker-compose.yml \
+               -f adaptive-alerting/docker-compose.yml \
+               -f example/blobs/docker-compose.yml up
+```
+
+The command above starts haystack components and also two sample web applications and haystack-agent. Give a minute or two for the containers to come up and connect with each other.
+
+Haystack's UI will be available at http://localhost:8080
+
+Haystack's agent will be available in port 35000 in the host (i.e., localhost: 35000).
+
+[Sample Application](https://github.com/ExpediaDotCom/haystack-blob-example) has a 'client' and a 'server'. The client interacts with the server listening on port `9090`. The client app will be available at `http://localhost:9091/displayMessage`. Sending a request to client will cause a call to the server before fulfilling this request.
+
+Call the client using the link given above and then you will be able to see the traces, trends and a service-graph showing the relationship between the two applications in the UI.
+
+Alternatively, you can also send some sample requests to the 'server' application by running 
+
+```bash
+run.sh
+```
 ### To start Zipkin (tracing) with Haystack's trends, service graph and adaptive-alerting
 
 ```
@@ -60,7 +85,7 @@ Note the two commands above add a series of `docker-compose.yml` files.
 
 * Haystack needs at least one trace provider ( traces/docker-compose.yml or zipkin/docker-compose.yml ) and one trends provider ( trends/docker-compose.yml )
 * One can remove adaptive-alerting/docker-compose.yml and service-graph/docker-compose.yml if those components are not required
-* One can remove examples/docker-compose.yml and just have agent/docker-compose.yml to start your application integrated with haystack to send data
+* One can remove `examples/traces/docker-compose.yml` or `examples/blobs/docker-compose.yml` and just have agent/docker-compose.yml to start your application integrated with haystack to send data
 * If one is using Zipkin instrument app, use zipkin/docker-compose.yml to send data to the stack and use trends, service-graph and adaptive-alerting as needed
 * Staring the stack just with with base docker-compose.yml, will start core services like kafka, cassandra and elastic-search along with haystack-ui with mock backend
 ```
