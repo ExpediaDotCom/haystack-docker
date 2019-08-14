@@ -53,7 +53,7 @@ The command above starts haystack components and also two sample web application
 
 Haystack's UI will be available at http://localhost:8080
 
-Haystack's agent will be available in port 34000 in the host (i.e., localhost: 34000).
+Haystack's agent will be available in port 35000 in the host (i.e., localhost: 35000).
 
 [Sample Application](https://github.com/ExpediaDotCom/haystack-blob-example) has a 'client' and a 'server'. The client interacts with the server listening on port `9090`. The client app will be available at `http://localhost:9091/displayMessage`. Sending a request to client will cause a call to the server before fulfilling this request.
 
