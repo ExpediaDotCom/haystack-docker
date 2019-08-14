@@ -4,9 +4,9 @@ services:
     image: expediadotcom/haystack-agent
     environment:
       JAVA_XMS: 128m
-      haystack_env_agents_spans_port: 34000
+      haystack_env_agents_spans_port: 35000
     ports:
-      - "34000:34000"
+      - "35000:35000"
 
   frontend:
     image: expediadotcom/opentracing-spring-haystack-example

@@ -27,7 +27,7 @@ The command above starts haystack components and also two sample web application
 
 Haystack's UI will be available at http://localhost:8080 
 
-Haystack's agent will be available in port 34000 in the host (i.e., localhost: 34000).
+Haystack's agent will be available in port 35000 in the host (i.e., localhost: 35000).
 
 [Sample application](https://github.com/ExpediaDotCom/opentracing-spring-haystack-example) has a 'frontend' and 'backend'. The 'frontend' app will be available in at http://localhost:9090/hello. Sending a request to frontend will cause a call to the backend before fulfilling this request. 
 
