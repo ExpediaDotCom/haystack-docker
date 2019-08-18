@@ -1,7 +1,7 @@
 - [Running Haystack using docker-compose](#running-haystack-using-docker-compose)
   * [Allocate memory to docker](#allocate-memory-to-docker)
-  * [To start Haystack's traces, trends and service graph](#to-start-haystacks-traces-trends-and-service-graph)
-  * [To start Zipkin (tracing) with Haystack's trends and service graph](#to-start-zipkin-tracing-with-haystacks-trends-and-service-graph)
+  * [To start Haystack's traces, blobs, trends, service graph and adaptive-alerting](#to-start-haystacks-traces-blobs-trends-service-graph-and-adaptive-alerting)
+  * [To start Zipkin (tracing) with Haystack's trends, service graph and adaptive-alerting](#to-start-zipkin-tracing-with-haystacks-trends-service-graph-and-adaptive-alerting)
   * [Note on composing components](#note-on-composing-components)
 
 ## Running Haystack using docker-compose
@@ -23,19 +23,20 @@ docker-compose -f docker-compose.yml \
                -f example/traces/docker-compose.yml up
 ```
 
-The command above starts haystack components and also two sample web applications and haystack-agent.  Give a minute or two for the containers to come up and connect with each other. 
+The command above starts haystack components, and two sample web applications with the haystack-agent.  It may take a minute or two for the containers to come up and connect with each other. 
 
 Haystack's UI will be available at http://localhost:8080 
 
-Haystack's agent will be available in port 35000 in the host (i.e., localhost: 35000).
+Haystack's agent will be available on host port 35000 (i.e., localhost: 35000).
 
-[Sample application](https://github.com/ExpediaDotCom/opentracing-spring-haystack-example) has a 'frontend' and 'backend'. The 'frontend' app will be available in at http://localhost:9090/hello. Sending a request to frontend will cause a call to the backend before fulfilling this request. 
+[Sample application](https://github.com/ExpediaDotCom/opentracing-spring-haystack-example) has a 'frontend' and 'backend'. The 'frontend' app will be available at http://localhost:9090/hello. Sending a request to frontend will cause a call to the backend before fulfilling this request. 
 
 Send some sample requests to the 'frontend' application by running 
 
 ```bash
 run.sh
 ```
+
 One can then see the traces, trends and a service-graph showing the relationship between the two applications in the UI.
 
 ### To start Haystack's traces, blobs, trends, service graph and adaptive-alerting
@@ -49,7 +50,7 @@ docker-compose -f docker-compose.yml \
                -f example/blobs/docker-compose.yml up
 ```
 
-The command above starts haystack components and also two sample web applications and haystack-agent. Give a minute or two for the containers to come up and connect with each other.
+The command above starts haystack components, and two sample web applications with the haystack-agent. It may take a minute or two for the containers to come up and connect with each other.
 
 Haystack's UI will be available at http://localhost:8080
 
@@ -64,6 +65,7 @@ Alternatively, you can also send some sample requests to the 'server' applicatio
 ```bash
 run.sh
 ```
+
 ### To start Zipkin (tracing) with Haystack's trends, service graph and adaptive-alerting
 
 ```
@@ -81,18 +83,19 @@ Give a minute or two for the containers to come up and connect with each other. 
 
 ### Note on composing components
 
-Note the two commands above add a series of `docker-compose.yml` files. 
+Note the two commands above combine a series of `docker-compose.yml` files. 
 
-* Haystack needs at least one trace provider ( traces/docker-compose.yml or zipkin/docker-compose.yml ) and one trends provider ( trends/docker-compose.yml )
-* One can remove adaptive-alerting/docker-compose.yml and service-graph/docker-compose.yml if those components are not required
-* One can remove `examples/traces/docker-compose.yml` or `examples/blobs/docker-compose.yml` and just have agent/docker-compose.yml to start your application integrated with haystack to send data
-* If one is using Zipkin instrument app, use zipkin/docker-compose.yml to send data to the stack and use trends, service-graph and adaptive-alerting as needed
-* Staring the stack just with with base docker-compose.yml, will start core services like kafka, cassandra and elastic-search along with haystack-ui with mock backend
-```
+* Haystack needs at least one trace provider ( `traces/docker-compose.yml` or `zipkin/docker-compose.yml` ) and one trends provider ( `trends/docker-compose.yml` )
+* One can remove `adaptive-alerting/docker-compose.yml` and `service-graph/docker-compose.yml` if those components are not required
+* One can remove `examples/traces/docker-compose.yml` or `examples/blobs/docker-compose.yml` and just have `agent/docker-compose.yml` to start your application integrated with haystack to send data
+* If one is using Zipkin instrument app, use `zipkin/docker-compose.yml` to send data to the stack and use trends, service-graph and adaptive-alerting as needed
+* Starting the stack with only the base docker-compose.yml will start core services like kafka, cassandra and elastic-search along with haystack-ui with mock backend
+```bash
 docker-compose -f docker-compose.yml up
 ```
 
 ### Note on Adaptive Alerting:
+
 * Model Service that fetches anomaly detection model for a specific metric has been replaced with a mocked (using wiremock) to allow the stack to use a default model. Default detection model us [EWMA](https://en.wikipedia.org/wiki/EWMA_chart) 
 * Model Service is being refactored to allow better model selection and we will be releasing it in the next month or two
 * Alert-Notification service that dispatches alerts to either email or slack is [commented in docker-compose](adaptive-alerting/docker-compose.yml#L100) file for local testing. You can uncomment it and provide slack_token or smtp credentials via environment.
