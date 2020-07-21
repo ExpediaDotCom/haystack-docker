@@ -11,6 +11,7 @@ services:
       SPRING_PROFILE: remote
       HAYSTACK_AGENT_HOST: haystack-agent
       BACKEND_URL: http://backend:9091
+      HAYSTACK_BLOBS_ENABLED: "false"
     depends_on: 
       - haystack-agent
     ports:
@@ -22,5 +23,6 @@ services:
       APP_MODE: backend
       SPRING_PROFILE: remote
       HAYSTACK_AGENT_HOST: haystack-agent
+      HAYSTACK_BLOBS_ENABLED: "false"
     depends_on: 
       - haystack-agent
